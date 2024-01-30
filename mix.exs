@@ -39,7 +39,7 @@ defmodule ExDbase.MixProject do
 
   defp package do
     [
-      licenses: ["MIT License"],
+      licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/imprest/ex_dbase"}
     ]
   end
