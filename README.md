@@ -16,3 +16,5 @@ end
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 The docs can also be found at <https://hexdocs.pm/ex_dbase>.
+
+Originaly forked from https://github.com/imprest/ex_dbase

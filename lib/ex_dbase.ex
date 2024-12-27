@@ -17,8 +17,21 @@ defmodule ExDbase do
   * `:map_fn` - Anonymous map fn to transform each record, which defaults to "fn x -> x end".
   """
   def parse(dbf_file, columns \\ [], map_fn \\ fn x -> x end) do
-    data = File.read!(dbf_file)
+    dbf_file
+    |> File.read!()
+    |> parse_binary(columns, map_fn)
+  end
 
+  @doc """
+  Takes dbf binary content and return a list of records.
+
+  Each record will be map in the folowing format "%{column_name => data}".
+
+  ## Option
+  * `:columns` - List of field names to be extracted from each record, which defaults to "[]" i.e. all.
+  * `:map_fn` - Anonymous map fn to transform each record, which defaults to "fn x -> x end".
+  """
+  def parse_binary(data, columns \\ [], map_fn \\ fn x -> x end) do
     <<
       _version,
       _last_updated::3-bytes,
@@ -174,7 +187,7 @@ defmodule ExDbase do
       version::1-bytes,
       # date of last update in YYMMDD format
       last_updated::3-bytes,
-      # number of records in the table 
+      # number of records in the table
       rec_count::32-unsigned-little-integer,
       # number of bytes in the header
       header_size::16-unsigned-little-integer,
@@ -188,7 +201,7 @@ defmodule ExDbase do
       encryption_flag::1-bytes,
       # reserved for multi-user processing
       multi_user_reserved::12-bytes,
-      # mdx flag; 0x01 if .mdx file exists else 0x00 
+      # mdx flag; 0x01 if .mdx file exists else 0x00
       mdx_flag::1-bytes,
       # language driver ID
       lang_driver_id::1-bytes,
