@@ -4,8 +4,8 @@ defmodule ExDbase.MixProject do
   def project do
     [
       app: :ex_dbase,
-      version: "1.0.0",
-      elixir: "~> 1.16",
+      version: "1.0.1",
+      elixir: "~> 1.19",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       description: description(),
@@ -27,9 +27,9 @@ defmodule ExDbase.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:decimal, "~> 2.0"},
-      {:ex_doc, "~> 0.31", only: :dev, runtime: false},
-      {:styler, "~> 0.11.9", only: [:dev, :test], runtime: false}
+      {:decimal, "~> 3.1.1"},
+      {:ex_doc, "~> 0.40", only: :dev, runtime: false, warn_if_outdated: true},
+      {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false}
     ]
   end
 
