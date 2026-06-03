@@ -50,7 +50,7 @@ defmodule ExDbase do
 
   # Maybe check if size of remaining bin > a_rec_size else stop processing since record is incomplete
   defp parse_records(bin, fields, columns, map_fn, a_rec_size, rec_count, records) do
-    <<deleted::1-bytes, rec::binary-size(a_rec_size), rest::binary>> = bin
+    <<deleted::1-bytes, rec::binary-size(^a_rec_size), rest::binary>> = bin
 
     if deleted === " " do
       case rec |> parse_record_by_fields(fields, columns, %{}) |> map_fn.() do
@@ -72,7 +72,7 @@ defmodule ExDbase do
   defp parse_record_by_fields(rec, fields, [], acc) do
     [field | f] = fields
     len = field.length
-    <<data::binary-size(len), rest::binary>> = rec
+    <<data::binary-size(^len), rest::binary>> = rec
     data = data |> String.trim() |> parse_data(field.type, field.decimal_count)
     parse_record_by_fields(rest, f, [], Map.put(acc, field.name, data))
   end
@@ -80,7 +80,7 @@ defmodule ExDbase do
   defp parse_record_by_fields(rec, fields, columns, acc) do
     [field | f] = fields
     len = field.length
-    <<data::binary-size(len), rest::binary>> = rec
+    <<data::binary-size(^len), rest::binary>> = rec
 
     if MapSet.member?(columns, field.name) do
       data = data |> String.trim() |> parse_data(field.type, field.decimal_count)
@@ -112,7 +112,8 @@ defmodule ExDbase do
   end
 
   # There will always be 1 field/column for a table
-  defp parse_fields(<<field_header::32-bytes, rest::binary>>), do: parse_fields([parse_field(field_header)], 1, rest)
+  defp parse_fields(<<field_header::32-bytes, rest::binary>>),
+    do: parse_fields([parse_field(field_header)], 1, rest)
 
   defp parse_fields(fields, count, bin) do
     <<stop::1-bytes, rest::binary>> = bin
