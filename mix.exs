@@ -4,7 +4,7 @@ defmodule ExDbase.MixProject do
   def project do
     [
       app: :ex_dbase,
-      version: "1.0.1",
+      version: "1.0.2",
       elixir: "~> 1.20",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
